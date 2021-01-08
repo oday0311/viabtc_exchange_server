@@ -92,7 +92,13 @@ int init_update(void)
     return 0;
 }
 
-int update_user_balance(bool real, uint32_t user_id, const char *asset, const char *business, uint64_t business_id, mpd_t *change, json_t *detail)
+int update_user_balance(bool real,
+                        uint32_t user_id,
+                        const char *asset,
+                        const char *business,
+                        uint64_t business_id,
+                        mpd_t *change,
+                        json_t *detail)
 {
     struct update_key key;
     key.user_id = user_id;

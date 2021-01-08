@@ -121,7 +121,7 @@ int init_balance()
         type.prec_save = settings.assets[i].prec_save;
         type.prec_show = settings.assets[i].prec_show;
         if (dict_add(dict_asset, settings.assets[i].name, &type) == NULL)
-            return -__LINE__;
+            return -__LINE__; //超级偷懒的写法， 返回当前出错的行数，__LINE__  ：当前程序行的行号，表示为十进制整型常量
     }
 
     return 0;

@@ -148,6 +148,8 @@ static int on_cmd_balance_query(nw_ses *ses, rpc_pkg *pkg, json_t *params)
         return reply_error_invalid_argument(ses, pkg);
 
     json_t *result = json_object();
+
+    //大小为1的时候返回全部资产
     if (request_size == 1) {
         for (size_t i = 0; i < settings.asset_num; ++i) {
             const char *asset = settings.assets[i].name;
@@ -186,6 +188,7 @@ static int on_cmd_balance_query(nw_ses *ses, rpc_pkg *pkg, json_t *params)
             json_object_set_new(result, asset, unit);
         }
     } else {
+        //大小不是1的时候返回的是部分资产
         for (size_t i = 1; i < request_size; ++i) {
             const char *asset = json_string_value(json_array_get(params, i));
             if (!asset || !asset_exist(asset)) {
@@ -289,6 +292,7 @@ static int on_cmd_balance_update(nw_ses *ses, rpc_pkg *pkg, json_t *params)
     return reply_success(ses, pkg);
 }
 
+//从配置里获取当前交易币中信息
 static int on_cmd_asset_list(nw_ses *ses, rpc_pkg *pkg, json_t *params)
 {
     json_t *result = json_array();
@@ -304,6 +308,8 @@ static int on_cmd_asset_list(nw_ses *ses, rpc_pkg *pkg, json_t *params)
     return ret;
 }
 
+
+//返回某个资产的总结信息
 static json_t *get_asset_summary(const char *name)
 {
     size_t available_count;
@@ -327,7 +333,7 @@ static json_t *get_asset_summary(const char *name)
 
     return obj;
 }
-
+//获取全部资产的总结信息
 static int on_cmd_asset_summary(nw_ses *ses, rpc_pkg *pkg, json_t *params)
 {
     json_t *result = json_array();
